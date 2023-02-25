@@ -9,20 +9,36 @@ class RequestError extends Error {
   }
 }
 
+//500
 function internalServerError(message: string) {
   return new RequestError(HttpStatusCode.INTERNAL_SERVER_ERROR, message);
 }
-
+//404
 function notFoundError(message: string) {
   return new RequestError(HttpStatusCode.NOT_FOUND, message);
 }
-
+//400
 function badRequest(message: string) {
   return new RequestError(HttpStatusCode.BAD_REQUEST, message);
 }
-
+//403
 function forBidden(message: string) {
   return new RequestError(HttpStatusCode.FORBIDDEN, message);
 }
+//401
+function authorization(message: string) {
+  return new RequestError(HttpStatusCode.UNAUTHORIZED, message);
+}
+//409
+function conflict(message: string) {
+  return new RequestError(HttpStatusCode.CONFLICT, message);
+}
 
-export { internalServerError, notFoundError, badRequest, forBidden };
+export {
+  internalServerError,
+  notFoundError,
+  badRequest,
+  forBidden,
+  authorization,
+  conflict,
+};
