@@ -15,6 +15,13 @@ const userSchema = new mongoose.Schema(
         value: true,
         message: "Поле avatar является обязательным",
       },
+      validate: {
+        validator: function (v: string) {
+          return /^https?:\/\//i.test(v);
+        },
+        message: (props: any) =>
+          `${props.value} не является корректной ссылкой!`,
+      },
     },
     about: {
       type: String,
@@ -23,7 +30,7 @@ const userSchema = new mongoose.Schema(
       maxlength: [200, "Максимальная длина 200 символов"],
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 export default mongoose.model<IUser>('user', userSchema);

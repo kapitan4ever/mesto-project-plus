@@ -13,13 +13,19 @@ const cardSchema = new mongoose.Schema(
       type: String,
       required: {
         value: true,
-        message: "Поле avatar является обязательным",
+        message: "Поле link является обязательным",
       },
-    },
+      validate: {
+        validator: function(v: string) {
+          return /^https?:\/\//i.test(v);
+      },
+      message: (props: any) => `${props.value} не является корректной ссылкой!`
+        }
+      },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
-      required: [true, "Поле about является обязательным"],
+      required: [true, "Поле owner является обязательным"],
     },
     likes: [
       {
@@ -32,7 +38,7 @@ const cardSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 export default mongoose.model<ICard>("card", cardSchema);

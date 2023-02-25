@@ -41,7 +41,7 @@ class UserController implements IUserController {
       const users = await User.find({});
       return res.status(HttpStatusCode.OK).send(users);
     } catch {
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -50,14 +50,14 @@ class UserController implements IUserController {
       const { userId } = req.params;
       const user = await User.findById(userId);
       if (!user) {
-        return next(notFoundError("Required user not found."));
+        return next(notFoundError("Требуемый пользователь не найден."));
       }
       return res.status(HttpStatusCode.OK).send(user);
     } catch (err) {
       if (err instanceof Error && err.name === "CastError") {
-        return next(badRequest("Incorrect id was submitted."));
+        return next(badRequest("Был отправлен неверный идентификатор."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -72,9 +72,9 @@ class UserController implements IUserController {
       return res.status(HttpStatusCode.CREATED).send(newUser);
     } catch (err) {
       if (err instanceof Error && err.name === "ValidationError") {
-        return next(badRequest("Incorrect data was submitted."));
+        return next(badRequest("Были представлены неверные данные."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -87,14 +87,14 @@ class UserController implements IUserController {
         about,
       });
       if (!updateUser) {
-        return next(notFoundError("Required user not found."));
+        return next(notFoundError("Требуемый пользователь не найден."));
       }
       return res.status(HttpStatusCode.OK).send(updateUser);
     } catch (err) {
       if (err instanceof Error && err.name === "ValidationError") {
-        return next(badRequest("Incorrect data was submitted."));
+        return next(badRequest("Были представлены неверные данные."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -108,14 +108,14 @@ class UserController implements IUserController {
       const id = req.user!._id;
       const updateUser = await User.findByIdAndUpdate(id, { avatar });
       if (!updateUser) {
-        return next(notFoundError("Required user not found."));
+        return next(notFoundError("Требуемый пользователь не найден."));
       }
       return res.status(HttpStatusCode.OK).send(updateUser);
     } catch (err) {
       if (err instanceof Error && err.name === "ValidationError") {
-        return next(badRequest("Incorrect data was submitted."));
+        return next(badRequest("Были представлены неверные данные."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 }

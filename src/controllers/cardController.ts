@@ -58,9 +58,9 @@ class CardController implements ICardController {
       return res.status(HttpStatusCode.CREATED).send(newCard);
     } catch (err) {
       if (err) {
-        return next(badRequest("Incorrect data was submitted."));
+        return next(badRequest("Были представлены неверные данные."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -73,19 +73,19 @@ class CardController implements ICardController {
       const { cardId } = req.params;
       const card = await Card.findByIdAndDelete(cardId);
       if (!card) {
-        return next(notFoundError("Required card not found."));
+        return next(notFoundError("Требуемая карточка не найдена."));
       }
       if (card.owner.toString() !== req.user?._id) {
-        return next(forBidden("Do not delete the cards of others."));
+        return next(forBidden("Не удаляйте чужие карточки."));
       }
       return res.status(HttpStatusCode.OK).send({
-        message: "Required card removed with success.",
+        message: "Требуемая карточка успешно удалена.",
       });
     } catch (err) {
       if (err instanceof Error && err.name === "CastError") {
-        return next(badRequest("Incorrect id was submitted."));
+        return next(badRequest("Был отправлен неверный идентификатор."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -103,14 +103,14 @@ class CardController implements ICardController {
         { new: true }
       );
       if (!card) {
-        return next(notFoundError("Required card not found."));
+        return next(notFoundError("Требуемая карточка не найдена."));
       }
       return res.status(HttpStatusCode.OK).send(card);
     } catch (err) {
       if (err instanceof Error && err.name === "CastError") {
-        return next(badRequest("Incorrect id was submitted."));
+        return next(badRequest("Был отправлен неверный идентификатор."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -123,7 +123,7 @@ class CardController implements ICardController {
       const cards = await Card.find({});
       return res.status(HttpStatusCode.OK).send(cards);
     } catch {
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 
@@ -141,14 +141,14 @@ class CardController implements ICardController {
         { new: true }
       );
       if (!card) {
-        return next(notFoundError("Required card not found."));
+        return next(notFoundError("Требуемая карточка не найдена."));
       }
       return res.status(HttpStatusCode.OK).send(card);
     } catch (err) {
       if (err instanceof Error && err.name === "CastError") {
-        return next(badRequest("Incorrect id was submitted."));
+        return next(badRequest("Был отправлен неверный идентификатор."));
       }
-      return next(internalServerError("Server error"));
+      return next(internalServerError("На сервере произошла ошибка"));
     }
   }
 }
