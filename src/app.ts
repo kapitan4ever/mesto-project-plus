@@ -10,10 +10,21 @@ app.use(json());
 app.use(tmpId);
 app.use(routes);
 
-mongoose.set('strictQuery', false);
-mongoose.connect(URL_DB);
+async function connect() {
+  try {
+    mongoose.set("strictQuery", false);
+    await mongoose.connect(URL_DB);
+    console.log(`DB Connect`);
+    await app.listen(PORT);
+    console.log(`App listening on port ${PORT}`);
+  } catch (error) {
+    if(error instanceof mongoose.Error.MongooseServerSelectionError) {
+      console.log("Ошибка подключения к базе данных");
+    }
+    console.log('Ошибка запуска сервера', error);
+  }
+};
 
-app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
-  console.log(`App listening on port ${PORT}`);
-});
+connect();
+
+
