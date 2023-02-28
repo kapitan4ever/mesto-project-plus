@@ -10,12 +10,17 @@ import {
   loginValidation,
 } from "./validation/userValidation";
 import auth from "./middlewares/auth";
+import errHandler from "./middlewares/errHandler";
+import { reqLog } from "./middlewares/log";
+import { errLog } from "./middlewares/errLog";
 
 require("dotenv").config();
 
 const app = express();
 
 app.use(json());
+
+app.use(reqLog);
 
 app.post("/signin", loginValidation, userController.login);
 app.post("/signup", createUserValidation, userController.createUser);
@@ -26,6 +31,8 @@ app.use(auth);
 app.use(routes);
 
 app.use(errors());
+app.use(errHandler);
+app.use(errLog);
 
 async function connect() {
   try {

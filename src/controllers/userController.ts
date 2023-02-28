@@ -3,14 +3,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
 import { HttpStatusCode, IRequestCustom } from "../types";
-import {
-  conflict,
-  authUser,
-  badRequest,
-  internalServerError,
-} from "../error/error";
+import RequestError from "../error/error";
 
-
+const { conflict, authUser, badRequest, internalServerError } = RequestError;
 interface IUserController {
   getUsers(
     req: Request,

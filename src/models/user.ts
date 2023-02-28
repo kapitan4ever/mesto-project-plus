@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import { IUser, IUserModel } from "../types";
 import validator from "validator";
 import bcrypt from 'bcrypt';
-import {
-  authUser,
-} from "../error/error";
+import RequestError from "../error/error";
+
+const { authUser } = RequestError;
 
 const userSchema = new mongoose.Schema(
   {

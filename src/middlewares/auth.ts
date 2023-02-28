@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { authUser } from "../error/error";
+import RequestError from "../error/error";
+
+const { authUser } = RequestError;
 
 interface IAuthRequest extends Request {
   user?: string | JwtPayload;

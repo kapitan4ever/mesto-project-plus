@@ -2,7 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongoose";
 import { HttpStatusCode, IRequestCustom } from "../types";
 import Card from "../models/card";
-import { badRequest, internalServerError, authUser } from "../error/error";
+import RequestError from "../error/error";
+
+const { badRequest, internalServerError, authUser } = RequestError;
 
 interface ICardController {
   getCards(
