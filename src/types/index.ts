@@ -1,6 +1,6 @@
-import { IUser } from "./user";
+import { IUser, IUserModel } from "./user";
 import { ICard } from "./card";
 import { IRequestCustom } from "./custom";
 import { HttpStatusCode } from "./code";
 
-export { IUser, ICard, IRequestCustom, HttpStatusCode };
+export { IUser, ICard, IRequestCustom, HttpStatusCode, IUserModel };
