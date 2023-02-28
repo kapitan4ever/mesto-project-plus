@@ -26,7 +26,7 @@ function forBidden(message: string) {
   return new RequestError(HttpStatusCode.FORBIDDEN, message);
 }
 //401
-function authorization(message: string) {
+function authUser(message: string) {
   return new RequestError(HttpStatusCode.UNAUTHORIZED, message);
 }
 //409
@@ -39,6 +39,6 @@ export {
   notFoundError,
   badRequest,
   forBidden,
-  authorization,
+  authUser,
   conflict,
 };

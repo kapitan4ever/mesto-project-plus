@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import { IUser, IUserModel } from "../types";
 import validator from "validator";
 import bcrypt from 'bcrypt';
+import {
+  authUser,
+} from "../error/error";
 
 const userSchema = new mongoose.Schema(
   {
@@ -51,19 +54,20 @@ const userSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-// userSchema.static(
-//   "findUserByCredentials",
-//   async function findUserByCredentials(email, password) {
-//     const user = await this.findOne({ email }).select("+password");
-//     if (!user) {
-//       return ApiError.authorization("Неправильные почта или пароль");
-//     }
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//       return ApiError.authorization("Неправильные почта или пароль");
-//     }
-//     return user;
-//   }
-// );
+userSchema.static(
+  "findUserByCredentials",
+  async function findUserByCredentials(this: any, email: string, password: string) {
+    const user = await this.findOne({ email }).select("+password");
+    if (!user) {
+      return authUser("Неправильные почта или пароль");
+    }
+    const matched = await bcrypt.compare(password, user.password);
+    if (!matched) {
+      return authUser("Неправильные почта или пароль");
+    }
+
+    return user;
+  }
+);
 
 export default mongoose.model<IUser, IUserModel>('user', userSchema);

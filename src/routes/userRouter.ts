@@ -5,7 +5,8 @@ const userRouter = Router();
 
 userRouter.get("/", UserController.getUsers);
 userRouter.get("/:userId", UserController.getUserById);
-userRouter.post("/", UserController.createUser);
+userRouter.get("/me", UserController.getUserInfo);
+
 userRouter.patch("/me", UserController.updateProfile);
 userRouter.patch("/me/avatar", UserController.updateProfileAvatar);
 

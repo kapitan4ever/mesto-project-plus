@@ -2,12 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongoose";
 import { HttpStatusCode, IRequestCustom } from "../types";
 import Card from "../models/card";
-import {
-  badRequest,
-  forBidden,
-  internalServerError,
-  notFoundError,
-} from "../error/error";
+import { badRequest, internalServerError, authUser } from "../error/error";
 
 interface ICardController {
   getCards(
@@ -73,10 +68,10 @@ class CardController implements ICardController {
       const { cardId } = req.params;
       const card = await Card.findByIdAndDelete(cardId);
       if (!card) {
-        return next(notFoundError("Требуемая карточка не найдена."));
+        return next(authUser("Требуемая карточка не найдена."));
       }
       if (card.owner.toString() !== req.user?._id) {
-        return next(forBidden("Не удаляйте чужие карточки."));
+        return next(authUser("Не удаляйте чужие карточки."));
       }
       return res.status(HttpStatusCode.OK).send({
         message: "Требуемая карточка успешно удалена.",
@@ -103,7 +98,7 @@ class CardController implements ICardController {
         { new: true }
       );
       if (!card) {
-        return next(notFoundError("Требуемая карточка не найдена."));
+        return next(authUser("Требуемая карточка не найдена."));
       }
       return res.status(HttpStatusCode.OK).send(card);
     } catch (err) {
@@ -141,7 +136,7 @@ class CardController implements ICardController {
         { new: true }
       );
       if (!card) {
-        return next(notFoundError("Требуемая карточка не найдена."));
+        return next(authUser("Требуемая карточка не найдена."));
       }
       return res.status(HttpStatusCode.OK).send(card);
     } catch (err) {
