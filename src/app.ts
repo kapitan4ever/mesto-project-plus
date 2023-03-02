@@ -38,7 +38,7 @@ async function connect() {
   try {
     mongoose.set("strictQuery", false);
     await mongoose.connect(URL_DB);
-    console.log(`DB Connect`);
+    console.log("DB Connect");
     await app.listen(PORT);
     console.log(`App listening on port ${PORT}`);
   } catch (error) {

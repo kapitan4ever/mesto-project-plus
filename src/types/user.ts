@@ -1,4 +1,5 @@
-import { Model, Document } from 'mongoose';
+import { Model, Document } from "mongoose";
+
 export interface IUser {
   name: string;
   id: string;
@@ -12,6 +13,6 @@ export interface IUserModel extends Model<IUser> {
   // eslint-disable-next-line no-unused-vars
   findUserByCredentials: (
     email: string,
-    password: string
+    password: string,
   ) => Promise<Document<any, any, IUser>>;
 }
