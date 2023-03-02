@@ -10,31 +10,31 @@ interface ICardController {
   getCards(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response>;
 
   deleteCardById(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response>;
 
   createCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response>;
 
   likeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response>;
 
   dislikeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response>;
 }
 
@@ -42,7 +42,7 @@ class CardController implements ICardController {
   async createCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response> {
     try {
       const id = req.user?._id;
@@ -64,20 +64,19 @@ class CardController implements ICardController {
   async deleteCardById(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response> {
     try {
       const { cardId } = req.params;
+      const owner = req.user!._id;
       const card = await Card.findByIdAndDelete(cardId);
       if (!card) {
         return next(authUser("Требуемая карточка не найдена."));
       }
-      if (card.owner.toString() !== req.user?._id) {
+      if (card.owner.toString() !== owner) {
         return next(authUser("Не удаляйте чужие карточки."));
       }
-      return res.status(HttpStatusCode.OK).send({
-        message: "Требуемая карточка успешно удалена.",
-      });
+      return res.json({ data: card });
     } catch (err) {
       if (err instanceof Error && err.name === "CastError") {
         return next(badRequest("Был отправлен неверный идентификатор."));
@@ -89,7 +88,7 @@ class CardController implements ICardController {
   async dislikeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response> {
     try {
       const id = req.user?._id as ObjectId;

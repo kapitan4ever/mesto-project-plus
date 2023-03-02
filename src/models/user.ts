@@ -5,6 +5,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 import { IUser, IUserModel } from "../types";
 import RequestError from "../error/error";
+import { regex } from "../config";
 
 const userSchema = new mongoose.Schema(
   {
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       validate: {
         validator(v: string) {
-          return /^https?:\/\//i.test(v);
+          return regex.test(v);
         },
         message: (props: any) => `${props.value} не является корректной ссылкой!`,
       },
