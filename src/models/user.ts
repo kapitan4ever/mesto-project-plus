@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import { IUser, IUserModel } from "../types";
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-escape */
+import mongoose from "mongoose";
 import validator from "validator";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
+import { IUser, IUserModel } from "../types";
 import RequestError from "../error/error";
-
-const { authUser } = RequestError;
 
 const userSchema = new mongoose.Schema(
   {
@@ -20,11 +20,10 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       validate: {
-        validator: function (v: string) {
+        validator(v: string) {
           return /^https?:\/\//i.test(v);
         },
-        message: (props: any) =>
-          `${props.value} не является корректной ссылкой!`,
+        message: (props: any) => `${props.value} не является корректной ссылкой!`,
       },
     },
     about: {
@@ -51,23 +50,27 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 userSchema.static(
   "findUserByCredentials",
-  async function findUserByCredentials(this: any, email: string, password: string) {
+  async function findUserByCredentials(
+    this: any,
+    email: string,
+    password: string,
+  ) {
     const user = await this.findOne({ email }).select("+password");
     if (!user) {
-      return authUser("Неправильные почта или пароль");
+      return RequestError.authUser("Неправильные почта или пароль");
     }
     const matched = await bcrypt.compare(password, user.password);
     if (!matched) {
-      return authUser("Неправильные почта или пароль");
+      return RequestError.authUser("Неправильные почта или пароль");
     }
 
     return user;
-  }
+  },
 );
 
-export default mongoose.model<IUser, IUserModel>('user', userSchema);
+export default mongoose.model<IUser, IUserModel>("user", userSchema);

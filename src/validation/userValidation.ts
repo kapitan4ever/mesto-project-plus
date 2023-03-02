@@ -1,9 +1,11 @@
+/* eslint-disable no-useless-escape */
 import { Joi, celebrate } from "celebrate";
+import { regex } from "../config";
 
 export const createUserValidation = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/^https?:\/\//i),
+    avatar: Joi.string().pattern(regex),
     about: Joi.string().min(2).max(200),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
@@ -33,7 +35,7 @@ export const updateInfoValidation = celebrate({
 export const updateAvatarValidation = celebrate({
   body: Joi.object().keys({
     avatar: Joi.string()
-      .pattern(/^https?:\/\//i)
+      .pattern(regex)
       .required(),
   }),
 });
