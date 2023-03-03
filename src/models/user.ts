@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema(
         validator(v: string) {
           return regex.test(v);
         },
-        message: (props: any) => `${props.value} не является корректной ссылкой!`,
+        message: (props: any) =>
+          `${props.value} не является корректной ссылкой!`,
       },
     },
     about: {
@@ -51,7 +52,7 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 userSchema.static(
@@ -59,7 +60,7 @@ userSchema.static(
   async function findUserByCredentials(
     this: any,
     email: string,
-    password: string,
+    password: string
   ) {
     const user = await this.findOne({ email }).select("+password");
     if (!user) {
@@ -71,7 +72,7 @@ userSchema.static(
     }
 
     return user;
-  },
+  }
 );
 
 export default mongoose.model<IUser, IUserModel>("user", userSchema);

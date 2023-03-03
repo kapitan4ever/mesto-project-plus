@@ -14,6 +14,10 @@ userRouter.get("/:userId", getUserByIdValidation, UserController.getUserById);
 userRouter.get("/me", UserController.getUserInfo);
 
 userRouter.patch("/me", updateInfoValidation, UserController.updateProfile);
-userRouter.patch("/me/avatar", updateAvatarValidation, UserController.updateProfileAvatar);
+userRouter.patch(
+  "/me/avatar",
+  updateAvatarValidation,
+  UserController.updateProfileAvatar
+);
 
 export default userRouter;

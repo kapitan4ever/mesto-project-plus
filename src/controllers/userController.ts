@@ -5,15 +5,13 @@ import User from "../models/user";
 import { HttpStatusCode, IRequestCustom } from "../types";
 import RequestError from "../error/error";
 
-const {
-  conflict, authUser, badRequest, internalServerError,
-} = RequestError;
+const { conflict, authUser, badRequest, internalServerError } = RequestError;
 
 interface IUserController {
   getUsers(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 
   getUserById(
@@ -129,7 +127,7 @@ class UserController implements IUserController {
         {
           new: true,
           runValidators: true,
-        },
+        }
       );
       if (!updateUser) {
         return next(authUser("Требуемый пользователь не найден."));
@@ -146,7 +144,7 @@ class UserController implements IUserController {
   async updateProfileAvatar(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ) {
     try {
       const { avatar } = req.body;
@@ -162,7 +160,7 @@ class UserController implements IUserController {
         {
           new: true,
           runValidators: true,
-        },
+        }
       );
       if (!updateUser) {
         return next(authUser("Требуемый пользователь не найден."));
@@ -184,7 +182,7 @@ class UserController implements IUserController {
         token: jwt.sign(
           { _id: user._id },
           (process.env.SECRET_KEY as string) || "some-secret-key",
-          { expiresIn: "7d" },
+          { expiresIn: "7d" }
         ),
       });
     } catch {

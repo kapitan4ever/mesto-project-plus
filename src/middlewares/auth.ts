@@ -24,7 +24,7 @@ export default (req: IAuthRequest, res: Response, next: NextFunction) => {
     try {
       payload = jwt.verify(
         token,
-        (process.env.SECRET_KEY as string) || "some-secret-key",
+        (process.env.SECRET_KEY as string) || "some-secret-key"
       ) as JwtPayload;
     } catch (err) {
       return authUser("Неверный токен авторизации");
