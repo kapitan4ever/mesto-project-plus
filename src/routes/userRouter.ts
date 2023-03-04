@@ -17,7 +17,7 @@ userRouter.patch("/me", updateInfoValidation, UserController.updateProfile);
 userRouter.patch(
   "/me/avatar",
   updateAvatarValidation,
-  UserController.updateProfileAvatar
+  UserController.updateProfileAvatar,
 );
 
 export default userRouter;

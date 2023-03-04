@@ -11,13 +11,13 @@ cardsRouter.post("/", createCardValidation, CardController.createCard);
 cardsRouter.delete(
   "/:cardId",
   getCardValidation,
-  CardController.deleteCardById
+  CardController.deleteCardById,
 );
 cardsRouter.put("/:cardId/likes", getCardValidation, CardController.likeCard);
 cardsRouter.delete(
   "/:cardId/likes",
   getCardValidation,
-  CardController.dislikeCard
+  CardController.dislikeCard,
 );
 
 export default cardsRouter;
