@@ -24,7 +24,8 @@ const cardSchema = new mongoose.Schema(
         validator(v: string) {
           return regex.test(v);
         },
-        message: (props: any) => `${props.value} не является корректной ссылкой!`,
+        message: (props: any) =>
+          `${props.value} не является корректной ссылкой!`,
       },
     },
     owner: {
@@ -43,7 +44,7 @@ const cardSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 export default mongoose.model<ICard>("card", cardSchema);

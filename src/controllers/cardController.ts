@@ -10,31 +10,31 @@ interface ICardController {
   getCards(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 
   deleteCardById(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 
   createCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 
   likeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 
   dislikeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 }
 
@@ -42,7 +42,7 @@ class CardController implements ICardController {
   async createCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response> {
     try {
       const id = req.user?._id;
@@ -64,7 +64,7 @@ class CardController implements ICardController {
   async deleteCardById(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response> {
     try {
       const { cardId } = req.params;
@@ -88,7 +88,7 @@ class CardController implements ICardController {
   async dislikeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response> {
     try {
       const id = req.user?._id as ObjectId;
