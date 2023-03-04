@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -13,7 +14,7 @@ interface IUserController {
   getUsers(
     req: Request,
     res: Response,
-    next: NextFunction,
+    next: NextFunction
   ): Promise<void | Response>;
 
   getUserById(
@@ -187,7 +188,10 @@ class UserController implements IUserController {
           { expiresIn: "7d" },
         ),
       });
-    } catch {
+    } catch (err) {
+      if (err instanceof Error) {
+        return next(authUser("Требуемый пользователь не найден."));
+      }
       return next(internalServerError("На сервере произошла ошибка"));
     }
   }

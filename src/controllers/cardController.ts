@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { NextFunction, Request, Response } from "express";
 import { ObjectId } from "mongoose";
 import { HttpStatusCode, IRequestCustom } from "../types";
@@ -66,9 +67,9 @@ class CardController implements ICardController {
     res: Response,
     next: NextFunction,
   ): Promise<void | Response> {
+    const { cardId } = req.params;
+    const owner = req.user!._id;
     try {
-      const { cardId } = req.params;
-      const owner = req.user!._id;
       const card = await Card.findByIdAndDelete(cardId);
       if (!card) {
         return next(authUser("Требуемая карточка не найдена."));
@@ -96,7 +97,7 @@ class CardController implements ICardController {
       const card = await Card.findByIdAndUpdate(
         cardId,
         { $pull: { likes: id } },
-        { new: true }
+        { new: true },
       );
       if (!card) {
         return next(authUser("Требуемая карточка не найдена."));
@@ -113,7 +114,7 @@ class CardController implements ICardController {
   async getCards(
     req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response> {
     try {
       const cards = await Card.find({});
@@ -126,7 +127,7 @@ class CardController implements ICardController {
   async likeCard(
     req: IRequestCustom,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void | Response> {
     try {
       const id = req.user?._id;
@@ -134,7 +135,7 @@ class CardController implements ICardController {
       const card = await Card.findByIdAndUpdate(
         cardId,
         { $addToSet: { likes: id } },
-        { new: true }
+        { new: true },
       );
       if (!card) {
         return next(authUser("Требуемая карточка не найдена."));

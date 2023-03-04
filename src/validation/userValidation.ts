@@ -34,8 +34,6 @@ export const updateInfoValidation = celebrate({
 
 export const updateAvatarValidation = celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string()
-      .pattern(regex)
-      .required(),
+    avatar: Joi.string().pattern(regex).required(),
   }),
 });

@@ -63,11 +63,11 @@ userSchema.static(
   ) {
     const user = await this.findOne({ email }).select("+password");
     if (!user) {
-      return RequestError.authUser("Неправильные почта или пароль");
+      throw RequestError.authUser("Неправильные почта или пароль");
     }
     const matched = await bcrypt.compare(password, user.password);
     if (!matched) {
-      return RequestError.authUser("Неправильные почта или пароль");
+      throw RequestError.authUser("Неправильные почта или пароль");
     }
 
     return user;
