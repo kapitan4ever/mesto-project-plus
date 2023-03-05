@@ -189,10 +189,7 @@ class UserController implements IUserController {
         ),
       });
     } catch (err) {
-      if (err instanceof Error) {
-        return next(authUser("Требуемый пользователь не найден."));
-      }
-      return next(internalServerError("На сервере произошла ошибка"));
+      return next(err);
     }
   }
 

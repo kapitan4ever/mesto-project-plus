@@ -70,14 +70,15 @@ class CardController implements ICardController {
     const { cardId } = req.params;
     const owner = req.user!._id;
     try {
-      const card = await Card.findByIdAndDelete(cardId);
+      const card = await Card.findById(cardId);
       if (!card) {
         return next(authUser("Требуемая карточка не найдена."));
       }
       if (card.owner.toString() !== owner) {
         return next(authUser("Не удаляйте чужие карточки."));
       }
-      return res.json({ data: card });
+      const deletedCard = await card.deleteOne();
+      return res.json({ data: deletedCard });
     } catch (err) {
       if (err instanceof Error && err.name === "CastError") {
         return next(badRequest("Был отправлен неверный идентификатор."));
